@@ -110,7 +110,7 @@ module.exports = app => {
   router.post('/admin/order/doEdit', admin.order.doEdit);
   router.post('/admin/order/doDel', admin.order.doDel);
 
-  // 前端pc路由api
+  // 前端pc路由api 不用登录可访问路径
   router.get('/api/index', api.index.index);
   router.post('/api/doLogin', api.index.doLogin);
   router.get('/api/home', api.index.home);
@@ -120,7 +120,7 @@ module.exports = app => {
   router.get('/api/pageById', api.index.pageById);
   router.get('/api/pageList', api.index.pageList);
   router.get('/api/brand', api.index.brand);
-  // 前端地址管理
+  // 需要登录路由 前端地址管理
   router.get('/api/address/index', api.address.index);
   router.get('/api/address/detail', api.address.detail);
   router.post('/api/address/doAdd', api.address.doAdd);

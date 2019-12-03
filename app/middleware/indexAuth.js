@@ -5,6 +5,7 @@ const ignorePaths = [
   '/api/doLogin',
   '/api/home',
   '/api/product',
+  '/api/productDetail',
   '/api/page',
   '/api/pageById',
   '/api/pageList',
