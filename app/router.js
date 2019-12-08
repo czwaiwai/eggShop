@@ -126,4 +126,17 @@ module.exports = app => {
   router.post('/api/address/doAdd', api.address.doAdd);
   router.post('/api/address/doEdit', api.address.doEdit);
   router.post('/api/address/doDel', api.address.doDel);
+  // 添加购物车
+  router.get('/api/cart/index', api.cart.index);
+  router.get('/api/cart/detail', api.cart.detail);
+  router.post('/api/cart/doAdd', api.cart.doAdd);
+  router.get('/api/cart/cartChecks', api.cart.cartCheck);
+  router.post('/api/cart/checkChange', api.cart.checkChange);
+  router.post('/api/cart/numChange', api.cart.numChange);
+  router.post('/api/cart/doDel', api.cart.doDel);
+  // 订单管理
+  router.get('/api/order/index', api.order.index);
+  router.get('/api/order/detail', api.order.detail);
+  router.post('/api/order/doOrder', api.order.doOrder);
+  router.post('/api/order/checkOrderPay', api.order.checkOrderPay);
 };

@@ -6,11 +6,12 @@ module.exports = app => {
   // 商品属性表
   const CartSchema = new Schema({
     name: { type: String }, // 产品名称
-    user_id: { type: Schema.ObjectId }, // 用户id
-    product_id: { type: Schema.ObjectId }, // 产品Id
-    brand_id: { type: Schema.ObjectId },
-    sku_id: { type: Schema.ObjectId },
+    user_id: { type: Schema.Types.ObjectId }, // 用户id
+    product_id: { type: Schema.Types.ObjectId }, // 产品Id
+    brand_id: { type: Schema.Types.ObjectId },
+    sku_id: { type: String },
     attr: { type: Object }, // 产品规格
+    price_props: { type: Object }, // 商品价格相关属性
     imgUrl: { type: String }, // 图片
     num: { type: Number, default: 1 }, // 数量
     is_check: { type: Boolean, default: false }, // 是否选中

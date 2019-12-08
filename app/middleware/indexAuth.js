@@ -21,7 +21,7 @@ module.exports = () => {
         await next();
       } else {
         ctx.throw(403, {
-          code: '403',
+          code: '1',
           message: '用户登录已失效',
         });
       }

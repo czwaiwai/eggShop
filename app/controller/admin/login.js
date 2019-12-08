@@ -10,8 +10,9 @@ class LoginController extends BaseController {
       captcha: { type: 'string' },
     }, body);
     const { imgCode } = this.ctx.session;
-    console.log(imgCode, body.captcha);
-    if (imgCode.toUpperCase() !== body.captcha.toUpperCase()) {
+    // console.log(imgCode, body.captcha);
+    const captcha = body.captcha || '';
+    if (imgCode.toUpperCase() !== captcha.toUpperCase()) {
       return this.fail('验证码不正确');
     }
     let { username, password } = body;
