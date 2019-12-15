@@ -38,11 +38,16 @@ class IndexController extends BaseController {
   async home() {
     // 获取banner信息
     const banner = await this.groupByBanner('homeSwipe', 1);
-
+    const recommends = await this.groupByBanner('banner_recommend', 1);
+    const pcConfig = await this.ctx.model.Dict.find({
+      sp_group: 'pcConfig',
+    }, { _id: 0, sp_name: 1, value: 1 });
     // 按商品风格查询商品
     const style = await this.ctx.model.Attr.findOne({
       attr_name: 'myStyle',
     });
+    // 查询product分类
+    const productCates = await this.treeByName('product');
     const arr = style.attr_val.split(',');
     // 按风格分类商品展示
     const proTypes = [];
@@ -59,15 +64,18 @@ class IndexController extends BaseController {
     // 查询Vr数据列表
 
     await this.succ({
+      pcConfig,
+      productCates,
       proTypes,
       banner,
+      recommends,
     });
   }
   async product() {
-    let { page, pageSize, type, subType, subNodeType, myStyle, brand, attr } = this.ctx.request.query;
+    let { page, pageSize, typeId, type, subType, subNodeType, myStyle, brand, attr } = this.ctx.request.query;
     page = parseInt(page || 1);
     pageSize = parseInt(pageSize || 20);
-    const catePath = subNodeType || subType || type;
+    let catePath = subNodeType || subType || type;
     // 查询product分类
     const res = await this.treeByName('product');
     // 获取产品风格属性
@@ -82,6 +90,7 @@ class IndexController extends BaseController {
     const brands = await this.ctx.model.Brand.find({});
     // 获取全部产品
     // const mongoose = this.app.mongoose;
+    let cate;
     const findParams = { on_sale: 1 };
     if (myStyle) {
       findParams['props.myStyle'] = myStyle;
@@ -89,13 +98,19 @@ class IndexController extends BaseController {
     if (brand) {
       findParams.brand_id = brand;
     }
+    if (typeId) { // 特殊处理
+      cate = await this.ctx.model.Category.findById(typeId);
+      catePath = cate.path;
+    }
     if (catePath) {
       findParams.category_path = new RegExp('^' + catePath);
     }
+
     if (attr) {
       findParams['props.' + attr] = '1';
     }
     const pageTotal = await this.ctx.model.Product.count(findParams);
+    console.log(findParams, 'findParams');
     const products = await this.ctx.model.Product.find(findParams).skip((page - 1) * +pageSize).limit(+pageSize);
     await this.succ({
       page,
@@ -104,6 +119,7 @@ class IndexController extends BaseController {
       style,
       brands,
       attrs,
+      cate,
       types: res,
       list: products,
     });
@@ -142,14 +158,20 @@ class IndexController extends BaseController {
     });
   }
   async pageList() {
-    const id = this.ctx.request.query.id;
+    let { id, page, pageSize } = this.ctx.request.query;
+    page = parseInt(page || 1);
+    pageSize = parseInt(pageSize || 10);
     const cate = await this.ctx.model.Category.findById(id);
     const pageGroup = await this.ctx.model.PageGroup.findById(cate.other_id);
-    const pages = await this.ctx.model.Page.find({ group_id: pageGroup._id });
+    const total = await this.ctx.model.Page.count({ group_id: pageGroup._id });
+    const pages = await this.ctx.model.Page.find({ group_id: pageGroup._id }).skip((page - 1) * +pageSize).limit(+pageSize);
     await this.succ({
       list: pages,
       cate,
       nav: pageGroup,
+      page,
+      pageSize,
+      total,
     });
   }
   async brand() {

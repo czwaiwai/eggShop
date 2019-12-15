@@ -9,8 +9,9 @@ class DictController extends BaseController {
   async index() {
     const { group_id } = this.ctx.request.query;
     const params = {};
+    const mongoose = this.app.mongoose;
     if (group_id) {
-      params.group_id = group_id;
+      params.group_id = mongoose.Types.ObjectId(group_id);
     }
     const res = await this.ctx.model[this.modelName].find(params);
     this.succ({
