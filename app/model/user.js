@@ -14,7 +14,8 @@ module.exports = app => {
     card_id: { type: String }, // 用户证件
     mobile: { type: String }, // 手机号吗
     weixin_id: { type: String }, // 微信weixinId
-    // token: { type: String }, // 微信access_token
+    open_id: { type: String },
+    token: { type: String }, // 微信access_token
     create_at: { type: Number, default: Date.now },
     update_at: { type: Number, default: Date.now },
   });

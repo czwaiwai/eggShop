@@ -1,39 +1,10 @@
 'use strict';
-const md5 = require('md5');
+
 const BaseController = require('./base.js');
+
 class IndexController extends BaseController {
   async index() {
     await this.succ();
-  }
-  async doLogin() {
-    const { username, password } = this.ctx.request.body;
-    const pwd = md5(password);
-    let user = await this.ctx.model.User.findOne({ username });
-    if (user) {
-      console.log(user, user.pwd, pwd);
-      if (user.pwd === pwd) {
-        const sUser = user.toObject();
-        delete sUser.pwd;
-        this.ctx.session.user = sUser;
-        console.log(sUser);
-        await this.succ();
-      } else {
-        this.fail('用户名或密码错误');
-      }
-    } else {
-      user = new this.ctx.model.User({
-        username,
-        pwd,
-      });
-      await user.save();
-      await this.succ({
-        isCreate: true,
-      });
-    }
-  }
-  async logout() {
-    this.ctx.session.user = null;
-    await this.succ({}, true);
   }
   async home() {
     // 获取banner信息
@@ -71,8 +42,15 @@ class IndexController extends BaseController {
       recommends,
     });
   }
-  async product() {
-    let { page, pageSize, typeId, type, subType, subNodeType, myStyle, brand, attr } = this.ctx.request.query;
+  async productCategory() {
+    // 查询product分类
+    const res = await this.treeByName('product');
+    await this.succ({
+      list: res,
+    });
+  }
+  async productList() {
+    let { page, pageSize, typeId, type, subType, subNodeType, myStyle, brand, attr } = this.ctx.request.body;
     page = parseInt(page || 1);
     pageSize = parseInt(pageSize || 20);
     let catePath = subNodeType || subType || type;
@@ -125,7 +103,7 @@ class IndexController extends BaseController {
     });
   }
   async productDetail() {
-    const id = this.ctx.request.query.id;
+    const id = this.ctx.request.body.id;
     // 查询商品
     const product = await this.ctx.model.Product.findById(id);
     const category = await this.ctx.model.Category.findById(product.category_id);
@@ -134,50 +112,6 @@ class IndexController extends BaseController {
     // 查询商品所在分类
     await this.succ({
       info: pro,
-    });
-  }
-  async page() {
-    const id = this.ctx.request.query.id;
-    const cate = await this.ctx.model.Category.findById(id);
-    const page = await this.ctx.model.Page.findById(cate.other_id);
-    await this.succ({
-      cate,
-      info: page,
-    });
-  }
-  async pageById() {
-    const id = this.ctx.request.query.id;
-    const page = await this.ctx.model.Page.findById(id);
-    let pageGroup;
-    if (page.group_id) {
-      pageGroup = await this.ctx.model.PageGroup.findById(page.group_id);
-    }
-    await this.succ({
-      nav: pageGroup,
-      info: page,
-    });
-  }
-  async pageList() {
-    let { id, page, pageSize } = this.ctx.request.query;
-    page = parseInt(page || 1);
-    pageSize = parseInt(pageSize || 10);
-    const cate = await this.ctx.model.Category.findById(id);
-    const pageGroup = await this.ctx.model.PageGroup.findById(cate.other_id);
-    const total = await this.ctx.model.Page.count({ group_id: pageGroup._id });
-    const pages = await this.ctx.model.Page.find({ group_id: pageGroup._id }).skip((page - 1) * +pageSize).limit(+pageSize);
-    await this.succ({
-      list: pages,
-      cate,
-      nav: pageGroup,
-      page,
-      pageSize,
-      total,
-    });
-  }
-  async brand() {
-    const brands = await this.ctx.model.Brand.find({});
-    await this.succ({
-      list: brands,
     });
   }
 }

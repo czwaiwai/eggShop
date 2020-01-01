@@ -3,7 +3,7 @@
 const BaseController = require('./base.js');
 class CartController extends BaseController {
   async index() {
-    const { user } = this.ctx.session;
+    const user = this.getUser();
     const res = await this.ctx.model.Cart.find({ user_id: user._id });
     await this.succ({
       list: res,
@@ -71,6 +71,12 @@ class CartController extends BaseController {
       }
     });
     await this.succ();
+  }
+  async doDels() {
+    const { ids } = this.ctx.request.body;
+    if (!(ids instanceof Array)) return this.ctx.throw(500);
+    await this.ctx.model.Cart.deleteMany({ _id: { $in: ids } });
+    await this.succ({}, true);
   }
   async doDel() {
     const { _id } = this.ctx.request.body;

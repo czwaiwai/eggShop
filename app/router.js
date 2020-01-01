@@ -9,7 +9,7 @@ module.exports = app => {
   router.get('/wx/token', controller.home.wechatAuth);
 
   // admin
-  const { admin, api } = controller;
+  const { admin, api, mobile } = controller;
   // 文件上传
   router.post('/admin/upload', admin.index.upload);
   router.get('/admin/index', admin.index.index);
@@ -113,6 +113,7 @@ module.exports = app => {
   // 前端pc路由api 不用登录可访问路径
   router.get('/api/index', api.index.index);
   router.post('/api/doLogin', api.index.doLogin);
+  router.post('/api/logout', api.index.logout);
   router.get('/api/home', api.index.home);
   router.get('/api/product', api.index.product);
   router.get('/api/productDetail', api.index.productDetail);
@@ -139,4 +140,34 @@ module.exports = app => {
   router.get('/api/order/detail', api.order.detail);
   router.post('/api/order/doOrder', api.order.doOrder);
   router.post('/api/order/checkOrderPay', api.order.checkOrderPay);
+
+  // 移动端路由
+  // 不用登录可以访问的路径
+  router.post('/mobile/doLogin', api.index.doLogin);
+  router.get('/mobile/index', mobile.index.index);
+  router.post('/mobile/home', mobile.index.home);
+  router.post('/mobile/productDetail', mobile.index.productDetail);
+  router.post('/mobile/productList', mobile.index.productList);
+  router.post('/mobile/productCategory', mobile.index.productCategory);
+  // 购物车
+  router.get('/mobile/cart/index', mobile.cart.index);
+  router.get('/mobile/cart/detail', mobile.cart.detail);
+  router.post('/mobile/cart/doAdd', mobile.cart.doAdd);
+  router.get('/mobile/cart/cartChecks', mobile.cart.cartCheck);
+  router.post('/mobile/cart/checkChange', mobile.cart.checkChange);
+  router.post('/mobile/cart/numChange', mobile.cart.numChange);
+  router.post('/mobile/cart/doDel', mobile.cart.doDel);
+  router.post('/mobile/cart/doDels', mobile.cart.doDels);
+
+  router.get('/mobile/address/index', mobile.address.index);
+  router.get('/mobile/address/detail', mobile.address.detail);
+  router.post('/mobile/address/doAdd', mobile.address.doAdd);
+  router.post('/mobile/address/doEdit', mobile.address.doEdit);
+  router.post('/mobile/address/doDel', mobile.address.doDel);
+  // 订单管理
+  router.get('/mobile/order/index', mobile.order.index);
+  router.get('/mobile/order/detail', mobile.order.detail);
+  router.post('/mobile/order/doOrder', mobile.order.doOrder);
+  router.post('/mobile/order/preOrder', mobile.order.preOrder);
+  router.post('/mobile/order/checkOrderPay', mobile.order.checkOrderPay);
 };
