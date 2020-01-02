@@ -9,7 +9,7 @@ module.exports = app => {
   router.get('/wx/token', controller.home.wechatAuth);
 
   // admin
-  const { admin, api, mobile } = controller;
+  const { admin, api, mobile, wx } = controller;
   // 文件上传
   router.post('/admin/upload', admin.index.upload);
   router.get('/admin/index', admin.index.index);
@@ -145,6 +145,7 @@ module.exports = app => {
   // 不用登录可以访问的路径
   router.post('/mobile/doLogin', api.index.doLogin);
   router.get('/mobile/index', mobile.index.index);
+  router.get('/mobile/user', mobile.index.user);
   router.post('/mobile/home', mobile.index.home);
   router.post('/mobile/productDetail', mobile.index.productDetail);
   router.post('/mobile/productList', mobile.index.productList);
@@ -170,4 +171,6 @@ module.exports = app => {
   router.post('/mobile/order/doOrder', mobile.order.doOrder);
   router.post('/mobile/order/preOrder', mobile.order.preOrder);
   router.post('/mobile/order/checkOrderPay', mobile.order.checkOrderPay);
+
+  router.get('/wx/login', wx.index.login);
 };

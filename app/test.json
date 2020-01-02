@@ -1,0 +1,19 @@
+{
+  "button": [
+    {
+      "type": "view",
+      "name": "凯胜装饰",
+      "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxec4cacaef87a17e6&redirect_uri=http%3A%2F%2Fwww.cbzxw.com%2Fwx%2Flogin&response_type=code&scope=snsapi_userinfo&state=mb_index#wechat_redirect"
+    },
+    {
+      "type": "view",
+      "name": "商品列表",
+      "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxec4cacaef87a17e6&redirect_uri=http%3A%2F%2Fwww.cbzxw.com%2Fwx%2Flogin&response_type=code&scope=snsapi_userinfo&state=mb_type#wechat_redirect"
+    },
+    {
+      "type": "view",
+      "name": "个人中心",
+      "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxec4cacaef87a17e6&redirect_uri=http%3A%2F%2Fwww.cbzxw.com%2Fwx%2Flogin&response_type=code&scope=snsapi_userinfo&state=mb_center#wechat_redirect"
+    }
+  ]
+}

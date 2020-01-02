@@ -6,6 +6,12 @@ class IndexController extends BaseController {
   async index() {
     await this.succ();
   }
+  async user() {
+    const user = await this.ctx.model.User.findOne({ username: 'waiwai' });
+    await this.succ({
+      user,
+    });
+  }
   async home() {
     // 获取banner信息
     const banner = await this.groupByBanner('homeSwipe', 1);
