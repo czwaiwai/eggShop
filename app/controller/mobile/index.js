@@ -8,6 +8,7 @@ class IndexController extends BaseController {
   }
   async user() {
     const user = await this.ctx.model.User.findOne({ username: 'waiwai' });
+    this.ctx.session.user = user;
     await this.succ({
       user,
     });
