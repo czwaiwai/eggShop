@@ -171,6 +171,7 @@ module.exports = app => {
   router.post('/mobile/order/doOrder', mobile.order.doOrder);
   router.post('/mobile/order/preOrder', mobile.order.preOrder);
   router.post('/mobile/order/checkOrderPay', mobile.order.checkOrderPay);
+  router.post('/mobile/order/cancel', mobile.order.cancel);
 
   router.get('/wx/login', wx.index.login);
 };

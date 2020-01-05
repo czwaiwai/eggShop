@@ -1,6 +1,7 @@
 'use strict';
 module.exports = app => {
   const mongoose = app.mongoose; /* 引入建立连接的mongoose */
+  mongoose.set('useFindAndModify', false);
   const Schema = mongoose.Schema;
   const d = new Date();
   const AccessSchema = new Schema({

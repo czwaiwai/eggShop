@@ -24,6 +24,8 @@ class IndexController extends BaseController {
     const style = await this.ctx.model.Attr.findOne({
       attr_name: 'myStyle',
     });
+    // 查询品牌信息
+    const brands = await this.ctx.model.Brand.find({}).limit(4);
     // 查询product分类
     const productCates = await this.treeByName('product');
     const arr = style.attr_val.split(',');
@@ -35,7 +37,7 @@ class IndexController extends BaseController {
       };
       obj.products = await this.ctx.model.Product.find({
         'props.myStyle': sub,
-      });
+      }).limit(6);
       proTypes.push(obj);
     });
     //
@@ -43,6 +45,7 @@ class IndexController extends BaseController {
 
     await this.succ({
       pcConfig,
+      brands,
       productCates,
       proTypes,
       banner,
