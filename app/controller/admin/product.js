@@ -3,13 +3,19 @@
 const BaseController = require('./base');
 class ProductController extends BaseController {
   async index() {
-    const { on_sale } = this.ctx.request.query;
+    let { on_sale, page, pageSize } = this.ctx.request.query;
+    page = parseInt(page || 1);
+    pageSize = parseInt(pageSize || 10);
     const params = {
       on_sale,
     };
-    const res = await this.ctx.model.Product.find(params);
+    const total = await this.ctx.model.Product.count(params);
+    const res = await this.ctx.model.Product.find(params).skip((page - 1) * +pageSize).limit(+pageSize);
     this.succ({
       list: res,
+      page,
+      pageSize,
+      total,
     });
   }
   async detail() {

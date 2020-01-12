@@ -4,6 +4,9 @@ const BaseController = require('./base.js');
 class CartController extends BaseController {
   async index() {
     const { user } = this.ctx.session;
+    if (!user) {
+      return await this.succ({ list: [] });
+    }
     const res = await this.ctx.model.Cart.find({ user_id: user._id });
     await this.succ({
       list: res,

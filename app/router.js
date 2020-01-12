@@ -118,6 +118,7 @@ module.exports = app => {
   router.get('/api/product', api.index.product);
   router.get('/api/productDetail', api.index.productDetail);
   router.get('/api/page', api.index.page);
+  router.get('/api/pageByName', api.index.pageByName);
   router.get('/api/pageById', api.index.pageById);
   router.get('/api/pageList', api.index.pageList);
   router.get('/api/brand', api.index.brand);
@@ -139,6 +140,7 @@ module.exports = app => {
   router.get('/api/order/index', api.order.index);
   router.get('/api/order/detail', api.order.detail);
   router.post('/api/order/doOrder', api.order.doOrder);
+  router.post('/api/order/cancel', api.order.cancel);
   router.post('/api/order/checkOrderPay', api.order.checkOrderPay);
 
   // 移动端路由

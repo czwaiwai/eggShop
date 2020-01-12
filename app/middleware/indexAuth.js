@@ -10,6 +10,7 @@ const ignorePaths = [
   '/api/pageById',
   '/api/pageList',
   '/api/brand',
+  '/api/cart/index',
 ];
 module.exports = () => {
   return async function indexAuth(ctx, next) {

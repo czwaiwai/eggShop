@@ -145,6 +145,13 @@ class IndexController extends BaseController {
       info: page,
     });
   }
+  async pageByName() {
+    const sp_name = this.ctx.request.query.sp_name;
+    const page = await this.ctx.model.Page.findOne({ sp_name });
+    await this.succ({
+      info: page,
+    });
+  }
   async pageById() {
     const id = this.ctx.request.query.id;
     const page = await this.ctx.model.Page.findById(id);

@@ -5,6 +5,7 @@ module.exports = app => {
   const now = Date.now();
   const PageSchema = new Schema({
     title: { type: String },
+    sp_name: { type: String },
     sub_title: { type: String },
     type: { type: Number, default: 0 }, // 0 普通单页  // 1分组
     mode: { type: Number, default: 0 }, // 0 内容模式 1 链接模式

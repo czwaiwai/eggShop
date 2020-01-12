@@ -45,6 +45,11 @@ class OrderController extends BaseController {
       isPay,
     });
   }
+  async cancel() {
+    const { _id } = this.ctx.request.body;
+    await this.ctx.model.Order.findOneAndUpdate({ _id }, { $set: { order_status: 11 } });
+    await this.succ({}, true);
+  }
   async doOrder() {
     // 先找到用户选中的购物车中的商品
     // cart product_id关联产品
